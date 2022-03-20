@@ -1,0 +1,36 @@
+version: "3.8"
+services:
+  wp-php:
+    build:
+      context: .
+      dockerfile: ./php/Dockerfile
+    depends_on:
+      - wp-mysql
+    networks:
+      - wp-network
+    ports:
+      - 8009:80
+    volumes:
+      - ../php:/var/www/mycode
+    container_name: wordpress
+  wp-mysql:
+    image: mysql:5.6
+    ports:
+      - "33066:3306"
+    volumes:
+      - ./mysql/.data:/var/lib/mysql
+      - ./mysql/initdb:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_DATABASE: wp
+      MYSQL_USER: wp
+      MYSQL_PASSWORD: demo
+      MYSQL_ROOT_PASSWORD: demo
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    networks:
+      - wp-network
+    container_name: wp-mysql
+networks:
+  wp-network:
+volumes:
+  my-data:
+    driver: local

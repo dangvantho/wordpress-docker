@@ -1,0 +1,6 @@
+CREATE TABLE news (
+    id INT NOT NULL AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    des TEXT,
+    PRIMARY KEY (id)
+);
